@@ -1,1 +1,1 @@
-# text-to-brainrot-lang
+# neuro-quest
