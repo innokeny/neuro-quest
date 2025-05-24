@@ -177,5 +177,4 @@ cython_debug/
 data
 model
 
-# Model dumps
-models
+models/*

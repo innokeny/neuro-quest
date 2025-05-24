@@ -1,3 +1,3 @@
-from .mock import MockModel
+from .model import DungeonMaster
 
-__all__ = ['MockModel']
+__all__ = ['DungeonMaster']

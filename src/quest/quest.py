@@ -1,11 +1,9 @@
 from src.memory.short import ShortTermMemory
 from src.schemas.action import Action
 
-from src.models.core import MockModel
-
 
 class Quest:
-    def __init__(self, sort_term_memory: ShortTermMemory, model: MockModel):
+    def __init__(self, sort_term_memory: ShortTermMemory, model):
         self.sort_term_memory = sort_term_memory
         self.model = model
     
