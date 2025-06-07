@@ -1,60 +1,81 @@
-# neuro-quest
+# D&D Knowledge Processing Pipeline
 
-## Векторная база данных (Vector Store)
+A unified pipeline for processing D&D knowledge and generating contextually rich responses. The system combines Named Entity Recognition (NER), Knowledge Graph, Vector Store, and Large Language Model (LLM) components to provide deep, contextual understanding of D&D concepts.
 
-В проекте используется векторная база данных для хранения и поиска релевантного контекста игровых сессий. Это позволяет чат-боту Dungeon Master автоматически подбирать важные исторические события и детали, связанные с текущим запросом пользователя.
+## Architecture
 
-### Назначение
-- Хранение истории игровых сессий (действия пользователя, ответы ассистента, события мира и т.д.)
-- Быстрый поиск и извлечение релевантного контекста по смыслу (например, если игрок снова заходит в таверну, бот вспомнит, что ранее там что-то произошло)
+The pipeline follows this flow:
 
-### Технологии
-- **FAISS** — быстрый поиск по векторам (Facebook AI Similarity Search)
-- **Sentence Transformers** — преобразование текста в векторные представления
-- **Pydantic** — строгие схемы для хранения данных
+1. **Input**: User prompt
+2. **NER Processing**: Extracts D&D entities using BERT model
+3. **Knowledge Graph**: Queries relationships between entities
+4. **Vector Store**: Performs semantic search for relevant context
+5. **LLM**: Generates final response using QWEN model
 
-### Где хранятся данные?
-- Все данные векторной базы сохраняются на диск в папке `data/vector_store/`:
-  - `index.faiss` — бинарный индекс FAISS
-  - `entries.json` — тексты, метаданные и временные метки
+### Components
 
-### Пример использования
-```python
-from src.memory.vector_store import VectorStore
+- **NER Processor**: Uses BERT model to identify D&D entities (characters, locations, items, etc.)
+- **Knowledge Graph**: Stores and queries relationships between D&D entities
+- **Vector Store**: Maintains semantic embeddings for fast similarity search
+- **LLM Processor**: Generates responses using the QWEN model
 
-# Инициализация
-vector_store = VectorStore()
+## Setup
 
-# Добавление событий
-vector_store.add_entry("Ранее игрок украл монету в этой таверне", {"type": "historical_event"})
-vector_store.add_entry("В таверне сидит пьяный гном", {"type": "scene_description"})
-
-# Получение релевантного контекста для нового запроса
-user_query = "Я зашел в таверну"
-context = vector_store.get_context(user_query)
-print(context)
-# Выведет:
-# Ранее игрок украл монету в этой таверне
-# В таверне сидит пьяный гном
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
-### Как работает поиск?
-1. Каждый текст преобразуется в вектор с помощью Sentence Transformers.
-2. Все векторы хранятся в FAISS-индексе.
-3. При новом запросе его текст также преобразуется в вектор, и FAISS ищет наиболее близкие по смыслу записи.
-4. Возвращается текстовое описание найденных событий — это и есть контекст для LLM.
+2. Prepare model paths:
+- NER model: `src/ner/model`
+- LLM model: `src/llm/model`
+- Vector store: `src/memory/vector_store.py`
 
-### Как запускать тесты
-1. Установите зависимости:
-   ```bash
-   pip install -e .
-   ```
-2. Запустите тесты:
-   ```bash
-   pytest src/tests/test_vector_store.py -v
-   ```
+## Usage
 
-### Примечания
-- Векторная база автоматически сохраняет и загружает данные между сессиями.
-- Для ускорения поиска и повышения качества можно использовать другие модели Sentence Transformers или дообучить их на своих данных.
-- Для изоляции тестов используется временная директория.
+```python
+from src.pipeline import UnifiedPipeline, PipelineConfig
+from pathlib import Path
+
+# Initialize pipeline
+config = PipelineConfig(
+    ner_model_path=Path("src/ner/model"),
+    llm_model_path=Path("src/llm/model"),
+    vector_store_path=Path("src/memory/vector_store.py"),
+    knowledge_graph_path=Path("data/knowledge_graph.json")
+)
+
+pipeline = UnifiedPipeline(config)
+
+# Process a query
+response = pipeline.process("Tell me about the relationship between Drizzt and Bruenor")
+
+# Add new knowledge
+pipeline.add_knowledge(
+    text="Drizzt Do'Urden is a drow ranger who became friends with Bruenor Battlehammer.",
+    metadata={"source": "The Crystal Shard", "page": 42},
+    entity_type="CHARACTER"
+)
+
+# Save state
+pipeline.save_state(Path("data"))
+```
+
+## Entity Types
+
+The system recognizes these D&D entity types:
+- CHARACTER: Characters, NPCs, and creatures
+- LOCATION: Places, realms, and locations
+- ITEM: Magic items, equipment, and artifacts
+- SPELL: Spells and magical abilities
+- CLASS: Character classes and professions
+- RACE: Races and species
+- FACTION: Organizations and groups
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
