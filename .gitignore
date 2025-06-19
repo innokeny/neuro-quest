@@ -177,7 +177,7 @@ cython_debug/
 data
 # model
 
-models/*
+models
 
 ner
 llm

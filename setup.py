@@ -2,8 +2,11 @@ from src.engine.engine import Engine, EngineConfig
 from src.ml.inference.master import MasterConfig, GenerationConfig
 from pathlib import Path
 
+vector_db_path = Path('tmp/db')
+vector_db_path.mkdir()
+
 config = EngineConfig(
-    vector_db_path=Path('tmp/db'),
+    vector_db_path=vector_db_path,
     number_of_remind_items=5,
     master_config=MasterConfig(
         path=Path('rar7/Qwen3-1.7B-dnd').as_posix(),

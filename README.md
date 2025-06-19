@@ -8,22 +8,7 @@ A unified pipeline for processing D&D knowledge and generating contextually rich
 ├── app.py                          # Streamlit app 
 ├── setup.py                        # Project config
 ├── README.md                       # Project documentation
-├── requirements.txt                # Python dependencies
-├── models                          # Folder with models
-│   ├── master                      # LLM (Qwen3) 
-│   │   ├── config.json             
-│   │   ├── generation_config.json  
-│   │   ├── model.safetensors     
-│   │   ├── tokenizer_config.json  
-│   │   ├── tokenizer.json 
-│   │   └── vocab.txt  
-│   └── ner                         # NER (BERT)
-│       ├── config.json             
-│       ├── model.safetensors       
-│       ├── special_tokens_map.json 
-│       ├── tokenizer.json          
-│       ├── tokenizer_config.json   
-│       └── vocab.txt               
+├── requirements.txt                # Python dependencies            
 ├── notebooks                       
 │   ├── nb_session.ipynb            # Testing in notebook
 │   ├── eval.ipynb                  # Model evaluation
