@@ -3,7 +3,7 @@ from src.ml.inference.master import MasterConfig, GenerationConfig
 from pathlib import Path
 
 vector_db_path = Path('tmp/db')
-vector_db_path.mkdir()
+vector_db_path.mkdir(parents=True, exist_ok=True)
 
 config = EngineConfig(
     vector_db_path=vector_db_path,
