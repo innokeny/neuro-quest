@@ -6,7 +6,7 @@ config = EngineConfig(
     vector_db_path=Path('tmp/db'),
     number_of_remind_items=5,
     master_config=MasterConfig(
-        path=Path('models/master').as_posix(),
+        path=Path('rar7/Qwen3-1.7B-dnd').as_posix(),
         preambular='''
 **The Tale of the Stolen Star**  
 
@@ -113,7 +113,7 @@ Will Riley uncover the Star’s secret before the city’s shadows swallow him w
 ''',
         generation_config=GenerationConfig(temperature=0.7, max_new_tokens=128),
     ),
-    ner_model_path=Path('models/ner'),
+    ner_model_path=Path('rar7/EntityBERT-dnd'),
     embedding_model_path=Path(
         'sentence-transformers/all-MiniLM-L6-v2'
     )
