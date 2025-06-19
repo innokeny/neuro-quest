@@ -3,8 +3,6 @@ import time
 from setup import engine
 
 
-
-
 def chat_stream(prompt):
     with st.spinner("Wait for it...", show_time=True):
         response = engine.dialog(prompt)

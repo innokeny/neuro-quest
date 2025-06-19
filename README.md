@@ -66,23 +66,31 @@ pip install jupyter
 
 ## Usage
 
-Example of using the pipeline to process a user query:
+You can test the app online via Streamlit:
+
+[Try Neuro Quest on Streamlit](https://neuro-quest.streamlit.app/)
+
+_Note: The online demo runs on CPU, so response generation may be slow._
+
+Or run locally as shown below:
 
 ```python
 from src.engine.engine import Engine, EngineConfig
 from src.ml.inference.master import MasterConfig, GenerationConfig
 from pathlib import Path
 
-# Initialize the engine (you may need to specify model paths)
+vector_db_path = Path('tmp/db')
+vector_db_path.mkdir(parents=True, exist_ok=True)
+
 config = EngineConfig(
     vector_db_path=Path('tmp/db'),
     number_of_remind_items=5,
     master_config=MasterConfig(
-        path=Path('Qwen/Qwen3-1.7B'),
+        path=Path('rar7/Qwen3-1.7B-dnd'),
         preambular=" An ancient seal weakens, freeing horrors long imprisoned. The realm trembles, its hope fading with the dying light. You must journey where others fear to tread before the final dusk falls.",
         generation_config=GenerationConfig(temperature=0.7, max_new_tokens=128),
     ),
-    ner_model_path=Path('models/ner'),
+    ner_model_path=Path('rar7/EntityBERT-dnd'),
     embedding_model_path=Path(
         'sentence-transformers/all-MiniLM-L6-v2'
     )
@@ -94,19 +102,15 @@ engine = Engine(config, debug=True)
 user_prompt = "Describe the magical properties of the Staff of Power found in Waterdeep."
 
 # Get the response
-response = engine.dialog("what i see")
+response = engine.dialog(user_prompt)
 print(response.text)
 ```
 
-# To run the Streamlit app:
+Or run the Streamlit app:
 ```bash
 streamlit run app.py
 ```
 
-# To launch a notebook:
-```bash
-jupyter notebook
-```
 
 ## Entity Types
 
