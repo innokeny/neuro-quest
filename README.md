@@ -13,7 +13,9 @@ A unified pipeline for processing D&D knowledge and generating contextually rich
 │   ├── nb_session.ipynb            # Testing in notebook
 │   ├── eval.ipynb                  # Model evaluation
 │   ├── llm_train.ipynb             # LLM training
-│   └── ner_train.ipynb             # NER training
+│   └── ner_train.ipynb             # Python dependencies            
+├── parser                       
+│   └── parser.py                   # Data parser
 └── src                             
     ├── engine
     │   └── engine.py               # Main pipeline engine
