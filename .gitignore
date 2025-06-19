@@ -181,3 +181,5 @@ models/*
 
 ner
 llm
+
+_src
