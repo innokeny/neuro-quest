@@ -6,7 +6,7 @@ config = EngineConfig(
     vector_db_path=Path('tmp/db'),
     number_of_remind_items=5,
     master_config=MasterConfig(
-        path=Path('Qwen/Qwen3-0.6B').as_posix(),
+        path=Path('models/master').as_posix(),
         preambular='''
 **The Tale of the Stolen Star**  
 
